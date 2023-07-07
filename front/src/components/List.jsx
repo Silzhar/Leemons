@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { createList, getLists } from '../services/list'
+import { getTask } from '../services/task'
 
 
 export default function List() {
   const [lists, setLists] = useState([])
   const [newListName, setNewListName] = useState('')
-  
+  const [tasks, setTasks] = useState([])
+  console.log('tasks: ', tasks);
+
   useEffect(() => {
     
     fetchLists()
+    fetchTasks()
   }, [])
   
   
@@ -21,6 +25,16 @@ export default function List() {
       console.error('Error fetching lists:', error)
     }
   }
+
+  async function fetchTasks() {
+        try {
+          const response = await getTask()
+          setTasks(response)
+    
+        } catch (error) {
+          console.error('Error fetching tasks:', error)
+        }
+      }
 
   async function handleCreateList() {
     try {

@@ -1,27 +1,54 @@
+const fs = require('fs');
+const path = require('path');
 const EventEmitter = require('events');
+
 
 class TaskService extends EventEmitter {
   constructor() {
     super();
-    this.tasks = {};
+    this.task = [];
+    this.loadData();
   }
 
-  addTaskToList(taskData) {
-    const { listId, taskName } = taskData;
+  createTask(taskData) {
+    const newTask = { id: generateId(), name: taskData.name };
+    this.task.push(newTask);
 
-    // Verificar si la lista existe
-    if (!this.tasks[listId]) {
-      return { error: 'La lista especificada no existe' };
+    // Guardar los datos actualizados en el archivo
+    this.saveData();
+
+    // Emitir el evento "listCreated" con la lista creada
+    this.emit('task Created', newTask);
+
+    return newTask;
+  }
+
+
+  loadData() {
+    try {
+      const data = fs.readFileSync(path.join(__dirname, 'task.json'), 'utf8');
+      this.task = JSON.parse(data);
+    } catch (error) {
+      // Si ocurre un error al leer el archivo o el archivo no existe, se asume que no hay datos guardados.
+      // En ese caso, se inicializa una lista vacía.
+      this.task = [];
     }
-
-    // Agregar la tarea a la lista correspondiente
-    this.tasks[listId].push(taskName);
-
-    // Emitir el evento "taskAdded" con el nombre de la lista y la tarea agregada
-    this.emit('taskAdded', { listId, taskName });
-
-    return { success: true };
   }
+
+  getTask(callback) {
+    const tasks = this.task;
+    callback(null, tasks);
+  }
+
+  saveData() {
+    const data = JSON.stringify(this.task, null, 2);
+    fs.writeFileSync(path.join(__dirname, 'task.json'), data, 'utf8');
+  }
+}
+
+// Función auxiliar para generar un ID único
+function generateId() {
+  return Math.random().toString(36).substr(2, 8);
 }
 
 module.exports = TaskService;

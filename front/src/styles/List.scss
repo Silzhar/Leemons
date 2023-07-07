@@ -1,0 +1,68 @@
+.homeList {
+    color: $fontColor;
+
+    h1 {
+        margin-left: 4vh;
+        text-decoration: 2px underline $leemonsyellow;
+    }
+
+    .createList {
+        display: flex;
+        align-items: center;
+
+        input {
+            display: block;
+            outline: none;
+            width: 34%;
+            margin: 1.8rem .3rem;
+            padding: .5rem 1rem;
+            font-size: 1.05rem;
+            resize: none;
+            color: $fontColor;
+            background-color: $leemonsPrimary;
+            transition: all .3s ease-in-out;
+            border: 1px solid $fontColor;
+            
+            &:hover{ border: 1px dashed $secondary; }
+            &:focus{ border: 1px solid $leemonsyellow ; }
+        }
+
+        button {
+            cursor: pointer;
+            background-color: $secondary;
+            color: $leemonsyellow;
+            border: 2px solid rgb(201, 201, 201);
+            border-radius: 5px;
+            font-size: 1.2rem;
+            width: 20vh;
+            height: 4.4vh;
+            transition: all .3s ease-in-out;
+            
+            &:hover{
+                border: 2px solid $grey;
+                background-color: $leemonsyellow;
+                color: $leemonsPrimary;
+            }
+        }
+    }
+
+    .listContainer {
+        max-width: 46%;
+        margin: 0.4vh;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        justify-content: center;
+        
+        div {
+            margin: 0.4vh;
+            border: 2px solid rgb(201, 201, 201);
+            padding: 2vh;
+            background-color: $leemonsyellow;
+            color: $secondary;
+            font-size: 2vh;
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+
+}
